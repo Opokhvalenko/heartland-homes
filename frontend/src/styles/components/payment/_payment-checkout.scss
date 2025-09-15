@@ -1,0 +1,137 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+@use '../buttons' as *;
+
+.payment-page {
+  @include flex-center;
+
+  min-height: calc(100vh - #{$z-header} - 5rem);
+  padding: $spacer;
+  background: $background-light;
+}
+
+.payment-checkout {
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #e6fcf7, #ccfbf1);
+  border-radius: $radius-lg;
+  box-shadow: $box-shadow-card;
+  animation: fade-in 0.6s ease;
+
+  .payment-title {
+    @include heading($font-size-xl, 700, $heading-color);
+
+    position: relative;
+    margin-bottom: $spacer-sm;
+
+    &::after {
+      display: block;
+      width: 60px;
+      height: 3px;
+      margin: 0.5rem auto 0;
+      content: '';
+      background: $primary-color;
+      border-radius: $radius-lg;
+    }
+  }
+
+  .payment-subtitle {
+    margin-bottom: $spacer;
+    font-size: $font-size-base;
+    color: $muted-color;
+  }
+
+  .payment-info {
+    margin-bottom: $spacer;
+    font-size: $font-size-md;
+    text-align: left;
+
+    .badge-id {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      font-size: $font-size-sm;
+      color: $white-color;
+      background: $primary-color;
+      border-radius: $radius-md;
+    }
+
+    .payment-amount {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: $primary-color;
+
+      .icon {
+        margin-right: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      .system-logo {
+        height: 28px;
+      }
+    }
+  }
+
+  .payment-button {
+    @extend .btn-primary;
+
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: $radius-md;
+    box-shadow: $box-shadow-button;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+
+      @include button-shadow-hover;
+    }
+  }
+}
+
+.payment-systems {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: $muted-color;
+  text-align: center;
+
+  .powered {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: $muted-color;
+  }
+
+  .system-logo {
+    height: 24px;
+    margin: 0 0.3rem;
+
+    &.stripe {
+      height: 28px;
+      margin-bottom: 0.3rem;
+    }
+  }
+
+  .cards {
+    margin-top: 0.5rem;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

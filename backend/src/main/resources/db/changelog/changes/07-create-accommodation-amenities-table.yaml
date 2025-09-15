@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 07-create-accommodation-amenities-table
+      author: yaroslav-pryshchepa
+      changes:
+        - createTable:
+            tableName: accommodation_amenities
+            columns:
+              - column:
+                  name: accommodation_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amenity
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: accommodation_amenities
+            baseColumnNames: accommodation_id
+            referencedTableName: accommodations
+            referencedColumnNames: id
+            constraintName: fk_accommodation_amenities_accommodation
+            onDelete: CASCADE

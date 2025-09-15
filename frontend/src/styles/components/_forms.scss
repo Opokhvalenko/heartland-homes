@@ -1,0 +1,142 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+
+fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+// Placeholders for reuse
+%form-control {
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: map.get(map.get($form-states, default), fg);
+  appearance: none;
+  background: map.get(map.get($form-states, default), bg);
+  border: 1px solid map.get(map.get($form-states, default), bd);
+  border-radius: $radius;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    border-color: map.get(map.get($form-states, hover), bd);
+  }
+
+  &:focus {
+    outline: none;
+    background: map.get(map.get($form-states, focus), bg);
+    border-color: map.get(map.get($form-states, focus), bd);
+    box-shadow: map.get(map.get($form-states, focus), shadow);
+  }
+
+  &:disabled {
+    color: map.get(map.get($form-states, disabled), fg);
+    cursor: not-allowed;
+    background: map.get(map.get($form-states, disabled), bg);
+  }
+}
+
+%form-group {
+  margin-bottom: $spacer-sm;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: $font-family-base;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: $heading-color;
+  }
+}
+
+// Regular classes (global)
+.input,
+.form-control,
+input,
+select,
+textarea {
+  @extend %form-control;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: clamp($control-height-sm, 5.5vw, 48px);
+  border-radius: $radius;
+}
+
+.form-group {
+  @extend %form-group;
+}
+
+//  Input icons
+.with-icon {
+  position: relative;
+
+  .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    font-size: 1rem;
+    color: $muted-color;
+    transform: translateY(-50%);
+  }
+
+  .form-control {
+    padding-left: 40px;
+  }
+}
+
+// Checkbox / radio
+.form-check-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.form-check {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+  }
+
+  .form-check-label {
+    font-weight: 600;
+    color: $text-color;
+  }
+}
+
+// Profile form override
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+
+  .form-group label {
+    display: initial;
+    margin-bottom: 0;
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}

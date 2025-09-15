@@ -1,0 +1,76 @@
+@use '../../abstract/variables' as *;
+
+.accommodation-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  background: $surface-color;
+  border-radius: $radius-lg;
+  box-shadow: $box-shadow-card;
+
+  .filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .form-group {
+    flex: 1;
+    min-width: 180px;
+
+    label {
+      margin-bottom: 0.2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: $gray-600;
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      padding: 0.4rem 0.6rem;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .price-range-group {
+    display: flex;
+    flex: 2;
+    gap: 1rem;
+
+    .form-group {
+      flex: 1;
+    }
+  }
+
+  .filters-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+
+    .btn-primary,
+    .btn-outline {
+      height: 40px;
+      padding: 0 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Mobile
+@media (max-width: $breakpoint-md) {
+  .accommodation-form-fields {
+    .filters-row {
+      flex-direction: column;
+    }
+
+    .filters-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

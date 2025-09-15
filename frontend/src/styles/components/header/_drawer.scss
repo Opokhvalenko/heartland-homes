@@ -1,0 +1,189 @@
+@use 'sass:color';
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+// Drawer
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: $z-drawer;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+
+  &.open {
+    pointer-events: auto;
+  }
+}
+
+.drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(15 15 20 / 45%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drawer.open .drawer-backdrop {
+  opacity: 1;
+}
+
+.drawer-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 320px;
+  height: 100vh;
+  padding: $spacer $spacer-sm;
+  overflow-y: auto;
+  background: $white-color;
+  border-left: 1px solid $gray-200;
+  border-radius: $radius-lg 0 0 $radius-lg;
+  box-shadow: $box-shadow-lg;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+
+  h2 {
+    margin: 0 0 $spacer-sm;
+    font-size: $font-size-lg;
+    font-weight: 800;
+    color: $heading-color;
+  }
+}
+
+.drawer.open .drawer-content {
+  transform: translateX(0);
+}
+
+// Навігація
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-sm;
+  padding: 0;
+  margin: 0 0 $spacer;
+  list-style: none;
+
+  li a {
+    @include nav-link-base;
+  }
+}
+
+// Кнопки
+.drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-sm;
+  padding-top: $spacer-sm;
+  margin-top: auto;
+  border-top: 1px solid $border-color;
+
+  .btn-back {
+    justify-content: flex-start;
+    padding: 0.6rem 0;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $primary-color;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+
+    &::before {
+      margin-right: 0.5rem;
+      font-size: 1rem;
+      content: '←';
+    }
+
+    &:hover {
+      color: $primary-600;
+    }
+  }
+}
+
+// Кнопка закриття
+.drawer-close {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: $spacer-sm;
+  cursor: pointer;
+  background: $gray-100;
+  border: 1px solid $gray-300;
+  border-radius: 50%;
+
+  &::before,
+  &::after {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    content: '';
+    background: $heading-color;
+    border-radius: 2px;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    background: $primary-color;
+
+    &::before,
+    &::after {
+      background: $white-color;
+    }
+  }
+}
+
+// Drawer admin-mode
+.drawer.admin-mode .drawer-content {
+  color: $white-color;
+  background: $gray-800;
+
+  h2 {
+    color: $white-color;
+  }
+
+  .drawer-nav li a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: $white-color;
+
+    &:hover,
+    &.active {
+      color: $primary-color;
+      background: $gray-700;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .drawer-actions {
+    border-top: 1px solid $gray-700;
+
+    .btn-primary {
+      color: $white-color;
+      background: $primary-color;
+      border: none;
+
+      &:hover {
+        background: $primary-600;
+      }
+    }
+  }
+}

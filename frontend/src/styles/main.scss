@@ -1,0 +1,58 @@
+// 1) abstract
+@use './abstract/variables' as *;
+@use './abstract/mixins' as *;
+
+// 2) global helpers / shared
+@use './components/badges/index' as *;
+@use './components/buttons' as *;
+@use './components/cards' as *;
+@use './components/filters' as *;
+@use './components/forms' as *;
+
+// 3) layout
+@use './layout/main-layout' as *;
+
+// 4) базові секції
+@use './components/sections' as *;
+
+// 5) components
+@use './components/accommodation/index' as *;
+@use './components/admin/index' as *;
+@use './components/booking/index' as *;
+@use './components/footer/index' as *;
+@use './components/header/index' as *;
+@use './components/hero' as *;
+@use './components/info-pages' as *;
+@use './components/location-map' as *;
+@use './components/map' as *;
+@use './components/modal' as *;
+@use './components/notifications' as *;
+@use './components/offers' as *;
+@use './components/pagination' as *;
+@use './components/payment/index' as *;
+@use './components/profile' as *;
+@use './components/searchForm' as *;
+@use './components/status-select' as *;
+
+// 6) сторонні стилі
+@use '../../node_modules/react-image-gallery/styles/scss/image-gallery';
+
+// reset / базове
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  background-color: $background-color;
+}

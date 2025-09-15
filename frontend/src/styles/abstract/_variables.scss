@@ -1,0 +1,256 @@
+// src/styles/abstract/_variables.scss
+@use 'sass:color';
+
+//  Кольори
+
+$primary-color: #0f766e;
+$primary-600: #0b5f59;
+$primary-700: #0a4f4a;
+$success-color: #16a34a;
+$warning-color: #f59e0b;
+$danger-color: #dc2626;
+$background-color: #f6f7f9;
+$background-light: #f9fafb;
+$white-color: #fff;
+$surface-color: $white-color;
+$text-color: #2f3b45;
+$muted-color: #6b7280;
+$heading-color: #22313f;
+$border-color: #e5e7eb;
+$info-color: #17a2b8;
+$warning-alt: #ffc107;
+$secondary-color: #2563eb;
+
+// grayscale
+$gray-50: #f8f8f8;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+//  Палітра бейджів (JS керує inline-colors)
+
+$badge-size-bg: $gray-200;
+$badge-size-color: $heading-color;
+$badge-size-border: $gray-300;
+
+//  Типографіка
+
+$font-family-base:
+  'Source Sans Pro',
+  system-ui,
+  -apple-system,
+  segoe ui,
+  roboto,
+  'Helvetica Neue',
+  arial,
+  'Noto Sans',
+  'Apple Color Emoji',
+  'Segoe UI Emoji',
+  'Segoe UI Symbol',
+  sans-serif;
+$line-height-base: 1.6;
+$font-size-sm: 0.95rem;
+$font-size-base: 1rem; // 16px
+$font-size-md: 1.05rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+
+//  Спейсинг та розміри
+
+$spacer: 1.5rem; // 24px
+$spacer-sm: 1rem; // 16px
+$spacer-md: 1.25rem; // 20px
+$spacer-lg: 2rem; // 32px
+$spacer-xl: 3rem;
+$radius-sm: 0.25rem; // 4px
+$radius-md: 0.5rem; // 8px
+$radius: 0.75rem; // 12px
+$radius-lg: 1rem; // 16px
+$radius-xl: 1.5rem;
+$max-width: 71.25rem; // 1140px
+$max-width-sm: 640px;
+$max-width-md: 768px;
+$max-width-lg: 1024px;
+$max-width-xl: 1280px;
+$max-width-2xl: 1440px;
+$grid-gutter: $spacer;
+
+//  Тіні
+
+$box-shadow-sm: 0 2px 6px rgb(16 24 40 / 6%);
+$box-shadow-md: 0 8px 24px rgb(16 24 40 / 8%);
+$box-shadow-lg: 0 16px 40px rgb(16 24 40 / 12%);
+$box-shadow-card:
+  0 2px 10px rgb(0 0 0 / 8%),
+  0 4px 16px rgb(0 0 0 / 5%);
+$box-shadow-form: 0 2px 10px rgb(0 0 0 / 5%);
+$box-shadow-card-hover:
+  0 8px 24px rgb(0 0 0 / 15%),
+  0 6px 20px rgb(0 0 0 / 10%);
+$box-shadow-focus: 0 0 0 3px rgba($primary-color, 0.25);
+$box-shadow-inset: inset 0 2px 4px rgb(0 0 0 / 6%);
+$box-shadow-button: 0 4px 8px rgb(0 0 0 / 10%);
+$box-shadow-button-hover: 0 6px 12px rgb(0 0 0 / 15%);
+
+//  Брейкпоінти
+
+$breakpoint-xs: 480px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$container-pad-min: 14px;
+$container-pad-max: 24px;
+$control-height-sm: 44px;
+$control-height-md: 40px;
+
+// 📊 Z-index
+
+$z-header: 1000;
+$z-drawer: 1200;
+
+// Палітра бейджів
+
+$badge-colors: (
+  house: #16a34a,
+  apartment: #2563eb,
+  hotel: #9333ea,
+  vacation-home: #f59e0b,
+  hostel: #06b6d4,
+  cottage: #8b5cf6,
+  wifi: #3b82f6,
+  kitchen: #f97316,
+  ac: #06b6d4,
+  parking: #16a34a,
+  washer: #8b5cf6,
+  other: #6b7280
+);
+
+//  Статуси бейджів (світлі кольори для кращої читабельності)
+
+$badge-status-colors: (
+  pending: (
+    bg: #fef3c7,
+    // світло-жовтий фон
+    color: #92400e // темно-коричневий текст
+  ),
+  paid: (
+    bg: #dcfce7,
+    // світло-зелений фон
+    color: #166534 // темно-зелений текст
+  ),
+  confirmed: (
+    bg: #d1fae5,
+    // ще світліший зелений
+    color: #065f46
+  ),
+  canceled: (
+    bg: #fee2e2,
+    // світло-червоний фон
+    color: #991b1b
+  ),
+  rejected: (
+    bg: #fee2e2,
+    color: #991b1b
+  ),
+  expired: (
+    bg: #f3f4f6,
+    // світло-сірий
+    color: #374151 // темно-сірий текст
+  ),
+  requires-verification: (
+    bg: #fff7ed,
+    // світло-оранжевий
+    color: #9a3412
+  ),
+  unknown: (
+    bg: #e5e7eb,
+    color: #374151
+  )
+);
+
+//  Кнопки
+$button-variants: (
+  primary: (
+    bg: linear-gradient(180deg, #10877e 0%, #0f766e 100%),
+    fg: $white-color,
+    bd: #0f766e,
+    hover-bg: linear-gradient(180deg, #0f7f76 0%, #0b5f59 100%)
+  ),
+  secondary: (
+    bg: #e9eef3,
+    fg: $muted-color,
+    bd: #d7dde3,
+    hover-bg: #e4eaef
+  ),
+  outline: (
+    bg: transparent,
+    fg: #475569,
+    bd: $border-color,
+    hover-bg: #f6f8fa
+  ),
+  ghost: (
+    bg: transparent,
+    fg: #14b8a6,
+    bd: transparent,
+    hover-bg: rgba($primary-color, 0.08)
+  ),
+  success: (
+    bg: $success-color,
+    fg: $white-color,
+    bd: $success-color,
+    hover-bg: color.adjust($success-color, $lightness: -8%)
+  ),
+  warning: (
+    bg: $warning-color,
+    fg: $white-color,
+    bd: $warning-color,
+    hover-bg: color.adjust($warning-color, $lightness: -8%)
+  ),
+  danger: (
+    bg: $danger-color,
+    fg: $white-color,
+    bd: $danger-color,
+    hover-bg: color.adjust($danger-color, $lightness: -8%)
+  ),
+  chip: (
+    bg: #f0f4f5,
+    fg: $primary-color,
+    bd: #dbe7e6,
+    hover-bg: #e8f0ef
+  ),
+  google: (
+    bg: $white-color,
+    fg: $text-color,
+    bd: $border-color,
+    hover-bg: $gray-100
+  )
+);
+
+//  Стан форм
+$form-states: (
+  default: (
+    bg: $white-color,
+    bd: $border-color,
+    fg: $text-color
+  ),
+  hover: (
+    bd: color.scale($border-color, $lightness: -8%)
+  ),
+  focus: (
+    bg: $white-color,
+    bd: $primary-color,
+    shadow: $box-shadow-focus
+  ),
+  disabled: (
+    bg: #eef2f6,
+    fg: $muted-color
+  )
+);

@@ -1,0 +1,23 @@
+spring.application.name=car.sharing.app
+
+spring.datasource.url=jdbc:mysql://localhost:3306/car_sharing_app?serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=root_12345
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=true
+
+spring.jackson.deserialization.fail-on-unknown-properties=true
+
+jwt.expiration=3000000
+jwt.secret=${JWT_SECRET}
+
+telegram.bot.token=${TELEGRAM_BOT_TOKEN}
+telegram.chat.id=${TELEGRAM_CHAT_ID}
+
+scheduler.rental.overdue.cron=0 37 16 * * *
+
+stripe.secret.key=${STRIPE_SECRET_KEY}
+app.base-url=${APP_BASE_URL}
+fine.multiplier=${FINE_MULTIPLIER}

@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 08-insert-accommodations-data
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Затишний будинок у центрі Києва" }
+              - column: { name: type, value: HOUSE }
+              - column: { name: location, value: "Київська область, м. Київ, вул. Хрещатик, 12" }
+              - column: { name: city, value: "Київ" }
+              - column: { name: latitude, value: "50.4477" }
+              - column: { name: longitude, value: "30.5220" }
+              - column: { name: size, value: "3 Спальні" }
+              - column: { name: daily_rate, valueNumeric: 2500.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/rbh8v6jjkhd3txxyhrfhg/photo1.jpg?rlkey=a4lrfbg4pz7zef6fv8jhcq12e&st=gykqx3xj&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Квартира біля оперного театру" }
+              - column: { name: type, value: APARTMENT }
+              - column: { name: location, value: "Львівська область, м. Львів, просп. Свободи, 45, кв. 12, поверх 3" }
+              - column: { name: city, value: "Львів" }
+              - column: { name: latitude, value: "49.8420" }
+              - column: { name: longitude, value: "24.0316" }
+              - column: { name: size, value: "1 Спальня" }
+              - column: { name: daily_rate, valueNumeric: 1800.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/72shzge7jjptym0m4lqpb/photo2.jpg?rlkey=6fq88kcxwwysv0epfj25oxs92&st=b38i6yrv&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Будинок відпочинку біля моря" }
+              - column: { name: type, value: VACATION_HOME }
+              - column: { name: location, value: "Одеська область, м. Одеса, вул. Шевченка, 8" }
+              - column: { name: city, value: "Одеса" }
+              - column: { name: latitude, value: "46.4825" }
+              - column: { name: longitude, value: "30.7233" }
+              - column: { name: size, value: "4 Спальні" }
+              - column: { name: daily_rate, valueNumeric: 3200.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/kp6w4a02drpbembtsxd7l/photo3.jpg?rlkey=dsnglnv4gejqkza4hvu7zmrt7&st=zgl9fqbe&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Готель у центрі Харкова" }
+              - column: { name: type, value: HOTEL }
+              - column: { name: location, value: "Харківська область, м. Харків, вул. Сумська, 101, кв. 45, поверх 7" }
+              - column: { name: city, value: "Харків" }
+              - column: { name: latitude, value: "49.9935" }
+              - column: { name: longitude, value: "36.2304" }
+              - column: { name: size, value: "2 Спальні" }
+              - column: { name: daily_rate, valueNumeric: 2100.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/nq2hgr5sn16je0yaepr7w/photo4.jpeg?rlkey=03ug8ay3t233tk3zmbd5nfm5q&st=ddr5kxpk&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Хостел у Дніпрі" }
+              - column: { name: type, value: HOSTEL }
+              - column: { name: location, value: "Дніпропетровська область, м. Дніпро, вул. Центральна, 15" }
+              - column: { name: city, value: "Дніпро" }
+              - column: { name: latitude, value: "48.4647" }
+              - column: { name: longitude, value: "35.0462" }
+              - column: { name: size, value: "10 Ліжок" }
+              - column: { name: daily_rate, valueNumeric: 500.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/e6javskrvdbqop0bcsbpq/photo5.jpg?rlkey=erawyll6abv7jizqgxkmlcy9y&st=o74pvxt9&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: accommodations
+            columns:
+              - column: { name: name, value: "Апартаменти в Івано-Франківську" }
+              - column: { name: type, value: APARTMENT }
+              - column: { name: location, value: "Івано-Франківська область, м. Івано-Франківськ, вул. Незалежності, 20" }
+              - column: { name: city, value: "Івано-Франківськ" }
+              - column: { name: latitude, value: "48.9226" }
+              - column: { name: longitude, value: "24.7103" }
+              - column: { name: size, value: "2 Спальні" }
+              - column: { name: daily_rate, valueNumeric: 1500.00 }
+              - column: { name: image, value: "https://www.dropbox.com/scl/fi/ic23pvv6yhv0zh9sckh8t/photo6.jpg?rlkey=p7h9micywcam5jouh4oipau9p&st=2zh21gh5&dl=0" }
+              - column: { name: is_deleted, valueNumeric: 0 }
+              - column: { name: accommodation_status, value: PERMITTED }
+              - column: { name: owner_id, valueNumeric: 1 }

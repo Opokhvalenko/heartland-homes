@@ -1,0 +1,108 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.booking-details-page {
+  padding-top: $spacer-lg;
+  padding-bottom: $spacer-lg;
+
+  .section-heading {
+    margin-bottom: $spacer-lg;
+    font-size: $font-size-xxl;
+    font-weight: 700;
+    color: $heading-color;
+    text-align: center;
+  }
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: $spacer;
+  align-items: flex-start;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.booking-info-card,
+.actions-card {
+  @include card-shadow;
+
+  padding: $spacer;
+  background-color: $white-color;
+  border-radius: $radius;
+}
+
+.booking-info-card {
+  .booking-image {
+    width: 100%;
+    margin-bottom: $spacer-sm;
+    border-radius: $radius;
+  }
+
+  .card-title {
+    margin: 0 0 0.25rem;
+    font-size: $font-size-xl;
+    font-weight: 700;
+  }
+
+  .card-subtitle {
+    margin-bottom: $spacer;
+    font-size: $font-size-base;
+    color: $muted-color;
+  }
+
+  .booking-details-content {
+    p {
+      margin-bottom: 0.5rem;
+    }
+
+    .total-price {
+      margin-top: $spacer-sm;
+      font-size: $font-size-lg;
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+}
+
+.actions-card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-md;
+  align-items: center;
+
+  .booking-price {
+    display: flex;
+    gap: 0.35rem;
+    align-items: baseline;
+    margin-bottom: 1rem;
+
+    .label {
+      font-size: $font-size-base;
+      font-weight: 600;
+      color: $muted-color;
+    }
+
+    .price {
+      font-size: $font-size-xl;
+      font-weight: 700;
+      color: $primary-color;
+    }
+
+    .currency {
+      font-size: $font-size-md;
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+
+  .btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: $font-size-base;
+    font-weight: 600;
+    border-radius: $radius-sm;
+  }
+}

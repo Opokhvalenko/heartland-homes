@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 04-insert-roles-data
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: MANAGER
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: CUSTOMER

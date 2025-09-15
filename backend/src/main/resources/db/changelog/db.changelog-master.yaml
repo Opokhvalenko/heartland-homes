@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/01-create-users-table.yaml
+  - include:
+      file: db/changelog/changes/02-create-roles-table.yaml
+  - include:
+      file: db/changelog/changes/03-create-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/04-insert-roles-data.yaml
+  - include:
+      file: db/changelog/changes/05-insert-users-data.yaml
+  - include:
+      file: db/changelog/changes/06-create-accommodations-table.yaml
+  - include:
+      file: db/changelog/changes/07-create-accommodation-amenities-table.yaml
+  - include:
+      file: db/changelog/changes/08-insert-accommodations-data.yaml
+  - include:
+      file: db/changelog/changes/09-insert-accommodation-amenities-data.yaml
+  - include:
+      file: db/changelog/changes/10-create-bookings-table.yaml
+  - include:
+      file: db/changelog/changes/11-create-payments-table.yaml

@@ -1,0 +1,29 @@
+@use '../abstract/variables' as *;
+@use 'sass:map';
+
+.status-select {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  box-shadow: $box-shadow-sm;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: $box-shadow-focus;
+  }
+
+  // автоматично генеруємо стилі
+  @each $status, $colors in $badge-status-colors {
+    &.#{$status} {
+      color: map.get($colors, color);
+      background-color: map.get($colors, bg);
+      border-color: map.get($colors, color);
+    }
+  }
+}

@@ -1,0 +1,125 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+@use '../../components/buttons' as *;
+@use 'sass:color';
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  font-size: $font-size-md;
+}
+
+.admin-sidebar {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 280px;
+  padding: 2.5rem 1.5rem;
+  color: $surface-color;
+  background: $gray-900;
+
+  .admin-brand {
+    margin-bottom: 2rem;
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $primary-color;
+    text-align: center;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li a {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      padding: 1rem 1.2rem;
+      font-size: $font-size-lg;
+      font-weight: 600;
+      color: $surface-color;
+      text-decoration: none;
+      border-radius: $radius-md;
+      transition: all 0.25s ease;
+
+      &:hover {
+        background: $gray-700;
+        border-left: 4px solid $primary-color;
+      }
+
+      .icon {
+        width: 26px;
+        height: 26px;
+      }
+    }
+  }
+}
+
+.admin-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  font-size: $font-size-md;
+  background: $background-light;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: $surface-color;
+  border-bottom: 1px solid $gray-200;
+  box-shadow: $box-shadow-sm;
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $heading-color;
+  }
+
+  .admin-user-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    .admin-user {
+      font-weight: 600;
+      color: $text-color;
+    }
+
+    .btn-logout {
+      @extend %btn;
+      @extend .btn-danger;
+
+      padding: 0.6rem 1.2rem;
+      font-size: $font-size-base;
+      font-weight: 600;
+    }
+  }
+}
+
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+}
+
+// Ховаємо sidebar на мобільному і планшеті
+@media (max-width: $breakpoint-lg) {
+  .admin-sidebar {
+    display: none;
+  }
+
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
+}

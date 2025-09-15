@@ -1,0 +1,44 @@
+@use '../../abstract/variables' as *;
+@use '../sections' as *;
+
+.accommodations-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.accommodation-card-wrapper {
+  max-width: 360px;
+  margin: 0 auto;
+
+  .card-custom {
+    max-width: 100%;
+    margin: 0 auto;
+    background: $white-color;
+    border-radius: $radius;
+    box-shadow: $box-shadow-card;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: $box-shadow-card-hover;
+      transform: translateY(-4px);
+    }
+
+    .card-img-top-custom {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: $radius $radius 0 0;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.25rem;
+    }
+  }
+}

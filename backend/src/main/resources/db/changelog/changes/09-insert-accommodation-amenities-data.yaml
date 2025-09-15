@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 09-insert-accommodation-amenities-data
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Київська область, м. Київ, вул. Хрещатик, 12')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Київська область, м. Київ, вул. Хрещатик, 12')" }
+              - column: { name: amenity, value: "Кондиціонер" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Київська область, м. Київ, вул. Хрещатик, 12')" }
+              - column: { name: amenity, value: "Пральна машина" }
+
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Львівська область, м. Львів, просп. Свободи, 45, кв. 12, поверх 3')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Львівська область, м. Львів, просп. Свободи, 45, кв. 12, поверх 3')" }
+              - column: { name: amenity, value: "Кухня" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Львівська область, м. Львів, просп. Свободи, 45, кв. 12, поверх 3')" }
+              - column: { name: amenity, value: "Балкон" }
+
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Одеська область, м. Одеса, вул. Шевченка, 8')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Одеська область, м. Одеса, вул. Шевченка, 8')" }
+              - column: { name: amenity, value: "Кухня" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Одеська область, м. Одеса, вул. Шевченка, 8')" }
+              - column: { name: amenity, value: "Парковка" }
+
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Харківська область, м. Харків, вул. Сумська, 101, кв. 45, поверх 7')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Харківська область, м. Харків, вул. Сумська, 101, кв. 45, поверх 7')" }
+              - column: { name: amenity, value: "Кондиціонер" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Харківська область, м. Харків, вул. Сумська, 101, кв. 45, поверх 7')" }
+              - column: { name: amenity, value: "Пральна машина" }
+
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Дніпропетровська область, м. Дніпро, вул. Центральна, 15')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Дніпропетровська область, м. Дніпро, вул. Центральна, 15')" }
+              - column: { name: amenity, value: "Кухня" }
+
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Івано-Франківська область, м. Івано-Франківськ, вул. Незалежності, 20')" }
+              - column: { name: amenity, value: "Wi-Fi" }
+        - insert:
+            tableName: accommodation_amenities
+            columns:
+              - column: { name: accommodation_id, valueComputed: "(SELECT id FROM accommodations WHERE location='Івано-Франківська область, м. Івано-Франківськ, вул. Незалежності, 20')" }
+              - column: { name: amenity, value: "Балкон" }

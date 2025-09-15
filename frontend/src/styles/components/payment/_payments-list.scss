@@ -1,0 +1,158 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+@use 'sass:color';
+@use '../buttons' as *;
+
+.payments-page {
+  min-height: calc(100vh - 200px);
+  padding: $spacer-xl 0;
+  background: $background-light;
+
+  .auth-title {
+    position: relative;
+    margin-bottom: $spacer-lg;
+    font-size: $font-size-xxl;
+    font-weight: 700;
+    color: $heading-color;
+    text-align: center;
+
+    &::after {
+      display: block;
+      width: 60px;
+      height: 3px;
+      margin: 0.5rem auto 0;
+      content: '';
+      background: $primary-color;
+      border-radius: $radius-lg;
+    }
+  }
+}
+
+.payments-grid {
+  display: grid;
+  gap: $spacer-lg;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0 auto;
+
+  .payment-card {
+    width: 100%;
+    min-width: 300px;
+    max-width: 420px;
+  }
+
+  @include media(md) {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    justify-content: center;
+  }
+}
+
+.payment-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  padding: 1.5rem;
+  margin: 0 auto;
+  color: $heading-color;
+  border-radius: $radius-lg;
+  box-shadow: $box-shadow-card;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: $box-shadow-card-hover;
+    transform: translateY(-4px);
+  }
+
+  //  теми за статусами
+  &.paid {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  }
+
+  &.pending {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+  }
+
+  &.canceled {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+  }
+
+  &.expired {
+    background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacer-sm;
+
+    h4 {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: $font-size-lg;
+      font-weight: 700;
+
+      .icon-chip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+        color: $white-color;
+        background: $primary-color;
+        border-radius: 50%;
+      }
+    }
+
+    .badge {
+      padding: 0.3rem 0.75rem;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      color: $heading-color;
+      background: rgba($white-color, 0.7);
+      border-radius: 50px;
+    }
+  }
+
+  &-body {
+    flex: 1;
+
+    p {
+      margin: 0.35rem 0;
+      font-size: $font-size-md;
+    }
+
+    .payment-amount {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $primary-color;
+
+      .left {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        .icon {
+          font-size: 1.3rem;
+        }
+      }
+
+      .system-logo {
+        height: 24px;
+      }
+    }
+  }
+
+  &-footer {
+    margin-top: $spacer-md;
+    text-align: right;
+  }
+}

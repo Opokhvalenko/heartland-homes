@@ -1,0 +1,32 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.list-property-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacer-lg;
+  margin-bottom: $spacer-lg;
+  text-align: center;
+  background-color: $gray-100;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+
+  h5 {
+    margin-bottom: $spacer-sm;
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $primary-700;
+  }
+
+  p {
+    max-width: 400px;
+    margin-bottom: $spacer;
+    font-size: $font-size-base;
+    color: $text-color;
+  }
+
+  .btn-secondary {
+    margin-top: $spacer-sm;
+  }
+}

@@ -1,0 +1,202 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+@use 'sass:color';
+
+.admin-table {
+  width: 100%;
+  overflow: hidden;
+  border-collapse: collapse;
+  background: $surface-color;
+  border-radius: $radius-lg;
+  box-shadow: $box-shadow-card;
+
+  th,
+  td {
+    padding: 1rem;
+    font-size: $font-size-sm;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  th {
+    font-weight: 700;
+    color: $heading-color;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: $gray-100;
+  }
+
+  tbody tr {
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: color.adjust($gray-200, $lightness: -8%);
+    }
+  }
+
+  td.price {
+    font-weight: 700;
+    color: $primary-color;
+  }
+
+  .table-img {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    box-shadow: $box-shadow-sm;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+
+    .btn-icon,
+    .btn-inline {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// Selects (без кольорів, лише базові стилі)
+.status-select,
+.role-select {
+  display: inline-block;
+  min-width: 140px;
+  padding: 0.6rem 2rem 0.6rem 0.75rem;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 20 20' fill='none' stroke='%23666' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 8L10 12L14 8' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1rem;
+  border: 1px solid $gray-300;
+  border-radius: $radius-md;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: $box-shadow-focus;
+  }
+}
+
+// Inline buttons
+.btn-inline {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: $radius-md;
+  transition: background 0.2s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.btn-inline.btn-secondary {
+  color: $primary-color;
+  background: $gray-200;
+
+  &:hover {
+    background: $gray-300;
+  }
+}
+
+.btn-inline.btn-danger {
+  color: $white-color;
+  background: $danger-color;
+
+  &:hover {
+    background: color.adjust($danger-color, $lightness: -8%);
+  }
+}
+
+// Mobile
+@media (max-width: $max-width-2xl) {
+  .admin-table,
+  .admin-table thead,
+  .admin-table tbody,
+  .admin-table th,
+  .admin-table td,
+  .admin-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tr {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: $surface-color;
+    border: 1px solid $gray-200;
+    border-radius: $radius-lg;
+    box-shadow: $box-shadow-card;
+  }
+
+  .admin-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid $gray-100;
+
+    &::before {
+      flex-shrink: 0;
+      margin-right: 1rem;
+      font-weight: 600;
+      color: $gray-600;
+      content: attr(data-label);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .admin-table .table-img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-radius: $radius-md;
+  }
+
+  .admin-table .actions {
+    flex-flow: row nowrap;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 0.8rem;
+
+    .btn-inline,
+    .btn-icon {
+      flex: 0 0 auto;
+      width: auto;
+      min-width: 90px;
+    }
+  }
+
+  .status-select,
+  .role-select {
+    width: 100%;
+    margin-top: 0.4rem;
+  }
+}

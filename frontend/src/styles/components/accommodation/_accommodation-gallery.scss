@@ -1,0 +1,60 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.accommodation-gallery,
+.single-image-container,
+.gallery-fallback {
+  width: 100%;
+  height: 420px;
+  margin-bottom: $spacer;
+  overflow: hidden;
+  background: $gray-200;
+  border-radius: $radius;
+
+  @include card-shadow;
+
+  @include media(md) {
+    height: 300px;
+  }
+}
+
+.accommodation-gallery {
+  .gallery-swiper {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: $primary-color;
+  }
+
+  .swiper-pagination-bullet {
+    background: $primary-color;
+  }
+}
+
+.single-image-container {
+  @include flex-center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.gallery-fallback {
+  @include flex-center;
+
+  img {
+    max-height: 80%;
+    object-fit: contain;
+  }
+}

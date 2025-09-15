@@ -1,0 +1,51 @@
+services:
+  mysqldb:
+    image: mysql:8
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - ${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  app:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    build: .
+    image: accommodation-booking-service:7.2
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - ${DEBUG_PORT}:${DEBUG_PORT}
+    environment:
+      SPRING_APPLICATION_JSON: |
+        {
+          "spring.datasource.url": "${SPRING_DATASOURCE_URL}",
+          "spring.datasource.username": "${SPRING_DATASOURCE_USERNAME}",
+          "spring.datasource.password": "${SPRING_DATASOURCE_PASSWORD}",
+          "spring.datasource.driver-class-name": "${SPRING_DATASOURCE_DRIVER}",
+          "spring.jpa.hibernate.ddl-auto": "${SPRING_JPA_HIBERNATE_DDL_AUTO}",
+          "spring.jpa.show-sql": ${SPRING_JPA_SHOW_SQL},
+          "spring.jackson.deserialization.fail-on-unknown-properties": ${SPRING_JACKSON_FAIL_ON_UNKNOWN_PROPERTIES},
+          "jwt.expiration": ${JWT_EXPIRATION},
+          "jwt.secret": "${JWT_SECRET}",
+          "spring.application.name": "${SPRING_APPLICATION_NAME}",
+          "spring.security.oauth2.client.registration.google.client-id": "${GOOGLE_CLIENT_ID}",
+          "spring.security.oauth2.client.registration.google.client-secret": "${GOOGLE_CLIENT_SECRET}",
+          "spring.security.oauth2.client.registration.google.scope": ["email", "profile"],
+          "spring.security.oauth2.client.registration.google.redirect-uri": "${GOOGLE_REDIRECT_URI}",
+          "spring.security.oauth2.client.provider.google.authorization-uri": "https://accounts.google.com/o/oauth2/v2/auth",
+          "spring.security.oauth2.client.provider.google.token-uri": "https://oauth2.googleapis.com/token",
+          "spring.security.oauth2.client.provider.google.user-info-uri": "https://www.googleapis.com/oauth2/v3/userinfo",
+          "spring.security.oauth2.client.provider.google.user-name-attribute": "email"
+        }
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${DEBUG_PORT}"

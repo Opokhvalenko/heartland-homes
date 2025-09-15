@@ -1,0 +1,136 @@
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+
+// Базовий клас для всіх секцій
+.section {
+  padding: 4rem 0;
+
+  .container {
+    max-width: $max-width-2xl;
+    padding: 0 1rem;
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    @include heading(2.5rem, 700, $heading-color);
+
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .section-subheading {
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+    color: $muted-color;
+    text-align: center;
+  }
+}
+
+// Доступні помешкання
+.accommodations-section {
+  @extend .section;
+
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .section-heading {
+      margin: 0;
+      text-align: left;
+    }
+
+    .view-all-btn {
+      white-space: nowrap;
+    }
+  }
+
+  .accommodations-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .accommodation-card-wrapper {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .text-center.mt-4 {
+    margin-top: 2rem !important;
+  }
+}
+
+// Пропозиції
+.offers-section {
+  @extend .section;
+
+  padding-top: 2rem; // зменшили верхній відступ
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+
+    @media (min-width: $breakpoint-lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .offer-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: $surface-color;
+    border-radius: $radius-lg;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    @include card-shadow;
+
+    &:hover {
+      transform: translateY(-4px);
+
+      @include card-shadow-hover;
+    }
+
+    .offer-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .card-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $heading-color;
+    }
+
+    .card-text {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+      color: $muted-color;
+    }
+
+    .btn-primary {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+  }
+}

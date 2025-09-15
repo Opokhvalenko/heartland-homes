@@ -1,0 +1,31 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+// коли drawer відкритий
+body.no-scroll {
+  overflow: hidden;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background: rgba($white-color, 0.9);
+  border-bottom: 1px solid rgba($border-color, 0.8);
+  box-shadow: $box-shadow-sm;
+
+  @supports (backdrop-filter: blur(8px)) {
+    background: rgba($white-color, 0.72);
+    backdrop-filter: saturate(180%) blur(10px);
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: $max-width-2xl;
+    padding-block: $spacer-sm;
+    padding-inline: clamp($container-pad-min, 3vw, $container-pad-max);
+    margin: 0 auto;
+  }
+}

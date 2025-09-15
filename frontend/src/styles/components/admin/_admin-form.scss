@@ -1,0 +1,62 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.admin-form {
+  max-width: 700px;
+  padding: 2.5rem;
+  margin: 3rem auto;
+  background: $surface-color;
+  border-radius: $radius-lg;
+  animation: fade-in-up 0.6s ease both;
+
+  @include card-shadow;
+  @include card-shadow-transition;
+
+  h1 {
+    @include heading($font-size-xl, 700);
+
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    &::before {
+      font-size: $font-size-lg;
+      content: '✨';
+    }
+  }
+}
+
+// Використовуємо глобальні стилі форм з _forms.scss
+
+// Кнопки
+.admin-form .btn-primary {
+  width: 100%;
+  padding: 1rem 1.25rem;
+}
+
+// Анімація
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-preview {
+  margin-top: 0.5rem;
+
+  .preview-img {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+  }
+}

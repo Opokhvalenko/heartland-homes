@@ -1,0 +1,12 @@
+@use '../../abstract/variables' as *;
+
+.auth-actions {
+  gap: $spacer-sm;
+
+  .btn {
+    padding: 0.55rem 1.2rem;
+    font-size: $font-size-md;
+    font-weight: 600;
+    border-radius: $radius;
+  }
+}

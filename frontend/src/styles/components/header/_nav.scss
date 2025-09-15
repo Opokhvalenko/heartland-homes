@@ -1,0 +1,49 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.nav-desktop {
+  display: none;
+  gap: 1.2rem;
+  align-items: center;
+
+  @include media(lg) {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+}
+
+ul {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-list {
+  display: flex;
+  gap: 1.3rem;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-link {
+  padding: 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $heading-color;
+  text-decoration: none;
+
+  @include underline($primary-color, 3px, 99px, 8px);
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  &.active {
+    color: $primary-color;
+  }
+}

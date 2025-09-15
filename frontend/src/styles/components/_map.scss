@@ -1,0 +1,16 @@
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: $radius;
+  box-shadow: $box-shadow-md;
+
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+    border-radius: $radius;
+  }
+}

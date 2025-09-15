@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-insert-users-data
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: admin@booking.com
+              - column:
+                  name: password
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
+              - column:
+                  name: first_name
+                  value: Admin
+              - column:
+                  name: last_name
+                  value: User
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: john.doe@booking.com
+              - column:
+                  name: password
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: jane.smith@booking.com
+              - column:
+                  name: password
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
+              - column:
+                  name: first_name
+                  value: Jane
+              - column:
+                  name: last_name
+                  value: Smith
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 1
+              - column:
+                  name: roles_id
+                  value: 1
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 2
+              - column:
+                  name: roles_id
+                  value: 2
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 3
+              - column:
+                  name: roles_id
+                  value: 2

@@ -1,0 +1,57 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.admin-page-container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: $background-light;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  background-color: $surface-color;
+  border-radius: $radius-md;
+
+  @include card-shadow;
+}
+
+.admin-table,
+.admin-users-table,
+.admin-bookings-table {
+  width: 100%;
+  font-size: $font-size-sm;
+  color: $text-color;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 1.1rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  th {
+    font-weight: 600;
+    color: $heading-color;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: $gray-100;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: $background-light;
+  }
+
+  tbody tr:hover {
+    background-color: $gray-100;
+    transition: background-color 0.2s ease;
+  }
+
+  .table-img {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    box-shadow: $box-shadow-sm;
+  }
+}

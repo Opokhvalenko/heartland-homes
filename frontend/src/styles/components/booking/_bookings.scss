@@ -1,0 +1,57 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.booking-actions {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin-top: auto;
+
+  .btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    font-size: $font-size-sm;
+    text-align: center;
+
+    @include media(md) {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacer-lg;
+  margin-bottom: $spacer-md;
+}
+
+.bookings-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer-md;
+
+  .card-custom {
+    flex: 1 1 calc(25% - #{$spacer-md});
+    min-width: 280px;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    .card-custom {
+      flex: 1 1 calc(33.333% - #{$spacer-md});
+    }
+  }
+
+  @media (max-width: $breakpoint-md) {
+    .card-custom {
+      flex: 1 1 calc(50% - #{$spacer-md});
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    .card-custom {
+      flex: 1 1 100%;
+    }
+  }
+}

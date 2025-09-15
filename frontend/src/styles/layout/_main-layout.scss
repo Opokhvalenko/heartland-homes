@@ -1,0 +1,115 @@
+// src/styles/layout/_main-layout.scss
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+@use 'sass:math';
+
+// 1. Core Layout
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+// 2. Sticky Footer
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+  padding: 20px 0;
+  margin-top: auto;
+  text-align: center;
+
+  @include media(sm) {
+    text-align: left;
+  }
+}
+
+// 3. Other Layout Components
+.container {
+  width: 100%;
+
+  // замість max-width:100% — ставимо базову максимальну ширину
+  max-width: $max-width-2xl;
+  padding-inline: clamp($container-pad-min, 3.5vw, $container-pad-max);
+  margin-inline: auto;
+
+  @include media(sm) {
+    max-width: $max-width-sm;
+  }
+
+  @include media(md) {
+    max-width: $max-width-md;
+  }
+
+  @include media(lg) {
+    max-width: $max-width-lg;
+  }
+
+  @include media(xl) {
+    max-width: $max-width-2xl;
+  }
+}
+
+.page-wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+// інпути в flex/grid ніколи не роздувають ряд
+input,
+select,
+textarea,
+.form-control {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.page {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  width: 100%;
+  padding-block: $spacer-lg;
+
+  @media (min-width: $breakpoint-md) {
+    align-content: center;
+    min-height: 60vh;
+  }
+}
+
+// єдине джерело правди для profile-card
+.profile-card {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+@media (max-width: $breakpoint-xs) {
+  .mt-4 {
+    margin-top: 20px;
+  }
+
+  .mb-4 {
+    margin-bottom: 20px;
+  }
+}

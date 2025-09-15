@@ -1,0 +1,71 @@
+@use '../abstract/variables' as *;
+
+.hero-section {
+  padding: 80px 0;
+  color: $white-color;
+  text-align: center;
+  background-color: $primary-600;
+}
+
+.hero-heading {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.hero-subheading {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  opacity: 0.8;
+}
+
+.search-form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer-sm;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.5rem;
+  color: $text-color;
+  background-color: $surface-color;
+  border-radius: $radius;
+  box-shadow: $box-shadow-form;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary {
+    height: 48px;
+    padding-inline: 1.25rem;
+  }
+}
+
+.search-input-group {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: $muted-color;
+  }
+}
+
+.date-inputs {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  input {
+    flex: 1;
+  }
+}
+
+.date-inputs span {
+  font-weight: 700;
+  opacity: 0.6;
+}

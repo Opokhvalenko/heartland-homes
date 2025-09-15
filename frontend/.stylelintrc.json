@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-standard-scss",
+    "stylelint-config-recess-order"
+  ],
+  "rules": {
+    "selector-class-pattern": [
+      "^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*|[a-z][a-z0-9]*(?:__[a-z0-9]+)*(?:--[a-z0-9]+)*)$",
+      {
+        "resolveNestedSelectors": true,
+        "message": "Класи мають бути у kebab-case або відповідати BEM (block__element--modifier)."
+      }
+    ],
+    "declaration-block-single-line-max-declarations": null,
+    "no-descending-specificity": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "property-no-deprecated": null,
+    "nesting-selector-no-missing-scoping-root": null,
+    "property-no-unknown": [
+      true,
+      { "ignoreProperties": ["/^-/"] }
+    ],
+    "keyframes-name-pattern": [
+      "^[a-z][a-z0-9-]*$",
+      { "message": "Назви @keyframes мають бути у kebab-case." }
+    ]
+  }
+}

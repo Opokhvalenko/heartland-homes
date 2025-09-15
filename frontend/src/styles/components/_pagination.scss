@@ -1,0 +1,56 @@
+@use '../abstract/mixins' as *;
+@use '../abstract/variables' as *;
+@use './buttons' as *;
+
+.pagination {
+  @include flex-center(row);
+
+  gap: $spacer-sm;
+  margin-top: $spacer-lg;
+
+  .pagination-info {
+    font-size: $font-size-sm;
+    color: $text-color;
+  }
+
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+    margin-top: auto;
+  }
+
+  button {
+    @extend .btn-outline; //  стиль з кнопок
+
+    min-width: 110px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.15s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      transform: none;
+    }
+  }
+
+  // адаптивність
+  @include media(sm) {
+    .pagination-info {
+      font-size: $font-size-md;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: $font-size-md;
+    }
+  }
+}

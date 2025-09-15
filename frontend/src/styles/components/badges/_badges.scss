@@ -1,0 +1,43 @@
+@use '../../abstract/variables' as *;
+@use '../../abstract/mixins' as *;
+
+.badge {
+  @include badge-base;
+
+  // fallback → якщо не задано background
+  &:not([style*='background']) {
+    font-weight: 600;
+    color: $heading-color;
+    background: $gray-100;
+    border: 1px solid $border-color;
+  }
+}
+
+// Автоматична генерація типів житла і зручностей
+@each $name, $color in $badge-colors {
+  .badge-type-#{$name},
+  .badge-amenity-#{$name} {
+    color: $white-color;
+    background: $color;
+  }
+}
+
+// кількість спалень
+.badge-size {
+  font-weight: 600;
+  color: $heading-color;
+  background: $gray-200;
+  border: 1px solid $gray-300;
+
+  &::before {
+    font-size: 1rem;
+    content: '🛏 ';
+  }
+}
+
+// група
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

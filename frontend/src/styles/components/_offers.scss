@@ -1,0 +1,71 @@
+// src/styles/components/_offers.scss
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+@use './sections' as *;
+
+.offers-section {
+  @extend .section;
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+
+    @media (min-width: $breakpoint-lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .offer-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: $surface-color;
+    border-radius: $radius-lg;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    @include card-shadow;
+
+    &:hover {
+      transform: translateY(-4px);
+
+      @include card-shadow-hover;
+    }
+
+    .offer-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .card-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $heading-color;
+    }
+
+    .card-text {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+      color: $muted-color;
+    }
+
+    .btn-primary {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+  }
+}

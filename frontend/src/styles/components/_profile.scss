@@ -1,0 +1,93 @@
+@use '../abstract/variables' as *;
+@use '../abstract/mixins' as *;
+@use './forms' as *;
+@use './buttons' as *;
+
+.profile-card {
+  max-width: 600px;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  text-align: center;
+  background: $white-color;
+  border-radius: $radius-lg;
+  box-shadow: $box-shadow-card;
+
+  @include card-shadow-transition;
+
+  &:hover {
+    @include card-shadow-hover;
+
+    transform: translateY(-2px);
+  }
+
+  .auth-title {
+    margin-bottom: 2rem;
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $heading-color;
+  }
+}
+
+//  Плаваючі лейбли (чисто для профілю)
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+
+  .form-group {
+    position: relative;
+
+    input {
+      @extend %form-control;
+
+      padding: 1.75rem 1rem 0.75rem;
+      background: $white-color;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+      }
+
+      // коли поле пусте → label у центрі
+      &:placeholder-shown + label {
+        top: 50%;
+        left: 1rem;
+        font-size: 1rem;
+        color: $muted-color;
+        transform: translateY(-50%);
+      }
+    }
+
+    label {
+      position: absolute;
+      top: 0.6rem;
+      left: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $muted-color;
+      pointer-events: none;
+      transition: 0.2s ease all;
+    }
+
+    // коли у фокусі або вже є текст → label вгорі
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      top: 0.5rem;
+      font-size: 0.75rem;
+      color: $primary-color;
+    }
+  }
+
+  button {
+    @extend .btn;
+    @extend .btn-primary;
+
+    align-self: center;
+    margin-top: 1rem;
+  }
+}
