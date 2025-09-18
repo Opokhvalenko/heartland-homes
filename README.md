@@ -1,56 +1,83 @@
-# Booking Service — Frontend 🏨
+# Heartland Homes 🏡
 
-Клієнтська частина проєкту **Booking Service**, створена на **React** та **Redux Toolkit**. Додаток дозволяє користувачам переглядати доступні помешкання, бронювати їх, керувати профілем і переглядати історію бронювань.
+Повноцінний сервіс для пошуку, бронювання та управління помешканнями.  
+Проєкт складається з **Frontend (React + Vite)** та **Backend (Spring Boot)**.
+
+---
+
+## 🌍 Демо
+
+- **Frontend (Vercel):** [https://heartland-homes.vercel.app](https://heartland-homes.vercel.app)  
+- **Backend (Microsoft Azure):** [https://accommodation-booking-service.azurewebsites.net](https://accommodation-booking-service.azurewebsites.net)
 
 ---
 
 ## 🚀 Основні можливості
-- **Автентифікація:** реєстрація, вхід/вихід, зберігання токена, захищені маршрути.
-- **Управління профілем:** перегляд і редагування даних користувача, зміна пароля.
-- **Перегляд помешкань:** список доступних варіантів із фільтрами та пагінацією.
-- **Деталі помешкання:** опис, фото, зручності, рейтинг, доступні дати.
-- **Бронювання:** створення бронювання, підтвердження та оплата.
-- **Мої бронювання:** перегляд усіх бронювань, скасування.
+
+### Для користувачів
+- Реєстрація та вхід (JWT).
+- Пошук і фільтрація помешкань.
+- Перегляд деталей житла з фото та зручностями.
+- Бронювання і оплата (Stripe).
+- Управління профілем.
+- Перегляд історії бронювань.
+
+### Для адміністраторів
+- Управління всіма помешканнями.
+- Керування бронюваннями.
+- Перегляд користувачів.
+- Панель адміністратора.
 
 ---
 
 ## 🛠 Використані технології
-- **React** — інтерфейс користувача.
-- **React Router DOM** — маршрутизація.
-- **Redux Toolkit** — управління станом.
-- **Axios** — HTTP-запити.
-- **Stripe Elements** — обробка платежів.
-- **Bootstrap** — стилізація.
 
----
+### Frontend
+- **React 19 + Vite**
+- React Router DOM
+- Redux Toolkit
+- Axios
+- Leaflet (карти)
+- Stripe
+- SCSS (модульна структура)
 
-## 🔐 Автентифікація та безпека
-- **JWT** (Bearer) для захисту API.
-- Токени можна зберігати у **HttpOnly cookies** або оновлювати через refresh-токен.
-- **CORS**: дозвольте запити з фронтенду (`http://localhost:3000`).
+### Backend
+- Spring Boot
+- Spring Security + JWT
+- Stripe API
+- Docker
+- PostgreSQL
 
 ---
 
 ## ⚙️ Налаштування середовища
 
-**CRA:**
 ```env
-REACT_APP_API_BASE_URL=http://localhost:8080/api/v1
-REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_XXXXXXXXXXXXXXXXXXXXXXXX
+# Frontend (.env.example)
+```
+## локально
+```bash
+VITE_API_URL=http://localhost:8080
 ```
 
-**Vite:**
-```env
-VITE_API_BASE_URL=http://localhost:8080/api/v1
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_XXXXXXXXXXXXXXXXXXXXXXXX
-```
+## продакшен (на Vercel)
+### VITE_API_URL=https://api.heartland-homes.com
 
----
+
+## Backend (.env.template)
+
+```bash
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/booking
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=postgres
+STRIPE_SECRET_KEY=stripe_secret_key_placeholder
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+JWT_SECRET=your-secret
+```
 
 ## ▶️ Локальний запуск
 
-### Окремо
-**Backend**
+### Backend
 ```bash
 cd backend
 cp .env.template .env
@@ -58,23 +85,22 @@ cp .env.template .env
 java -jar target/*.jar
 ```
 
-**Frontend**
+### Frontend
 ```bash
 cd frontend
 cp .env.example .env
 npm install
-npm start
+npm run dev
 ```
 
-### Docker Compose
+### Docker Compose (бекенд + база)
 ```bash
 cd backend
 docker compose up --build
 ```
-
 ---
 
-## 🧪 Тестування
+### 🧪 Тестування
 **Backend:**
 ```bash
 ./mvnw test
@@ -86,17 +112,17 @@ npm test
 
 ---
 
-## 🧰 Корисні скрипти
+### 🧰 Корисні скрипти
 **Frontend**
 ```json
 {
   "scripts": {
     "dev": "vite",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "react-scripts test",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
     "format": "prettier --write ."
   }
 }
@@ -108,16 +134,7 @@ npm test
 ./mvnw test
 ```
 
----
-
-## 📝 React + Vite (опційно)
-- `@vitejs/plugin-react` (Babel)
-- `@vitejs/plugin-react-swc` (SWC)
-- Використання TypeScript + `typescript-eslint`
-
----
-
-## 🔧 Траблшутінг
+### 🔧 Траблшутінг
 - **CORS:** перевірте `CORS_ALLOWED_ORIGINS`.
 - **Stripe:** перевірте ключі та редіректи.
 - **JWT expired:** оновіть токен.
@@ -126,7 +143,7 @@ npm test
 
 ---
 
-## 🗺 Roadmap
+### 🗺 Roadmap
 - Розширення RBAC
 - Відгуки, фаворити
 - i18n
@@ -135,5 +152,5 @@ npm test
 
 ---
 
-## 📄 Ліцензія
-MIT або інша.
+### 📄 Ліцензія
+MIT
