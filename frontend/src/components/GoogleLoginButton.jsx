@@ -3,7 +3,7 @@ import React from 'react';
 const GoogleLoginButton = () => {
   const handleGoogleLogin = () => {
     // ⚡ Редірект усього вікна на бекенд-ендпоінт
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'https://accommodation-booking-service.azurewebsites.net/oauth2/authorization/google';
   };
 
   return (
