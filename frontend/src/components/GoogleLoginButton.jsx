@@ -2,8 +2,8 @@ import React from 'react';
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = () => {
-    // ⚡ Редірект усього вікна на бекенд-ендпоінт
-    window.location.href = 'https://accommodation-booking-service.azurewebsites.net/oauth2/authorization/google';
+    const api = import.meta.env.VITE_API_URL;
+    window.location.href = `${api}/oauth2/authorization/google`;
   };
 
   return (
@@ -13,7 +13,7 @@ const GoogleLoginButton = () => {
         alt="Google logo"
         width="20"
         height="20"
-        style={{ marginRight: '8px' }}
+        style={{ marginRight: 8 }}
       />
       Увійти через Google
     </button>
