@@ -1,8 +1,7 @@
 {
   "rewrites": [
     { "source": "/favicon.ico",       "destination": "/favicon.png" },
-    { "source": "/favicon-error.ico", "destination": "/favicon.png" },
-    { "source": "/(.*)", "destination": "/index.html", "missing": [{ "type": "file" }] }
+    { "source": "/favicon-error.ico", "destination": "/favicon.png" }
   ],
   "headers": [
     {
@@ -11,5 +10,9 @@
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
