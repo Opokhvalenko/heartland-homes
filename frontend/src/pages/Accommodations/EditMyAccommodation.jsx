@@ -23,6 +23,7 @@ const defaultIcon = new L.Icon({
   iconAnchor: [12, 41]
 });
 
+// Клік по карті -> задаємо координати
 const LocationPicker = ({ setCoordinates }) => {
   useMapEvents({
     click(e) {
@@ -35,6 +36,70 @@ const LocationPicker = ({ setCoordinates }) => {
   return null;
 };
 
+const stripRegionFromLocation = (loc = '') => {
+  if (!loc) return { region: '', rest: '' };
+  let s = loc.trim();
+
+  const re = /^(.+?(?:область|обл\.))\s*,\s*/i;
+  const m = s.match(re);
+  if (m) {
+    const regionRaw = m[1].trim();
+    const regionNorm = regionRaw.replace(/обл\./i, 'область');
+    s = s.replace(re, '').trim();
+    return { region: regionNorm, rest: s };
+  }
+  return { region: '', rest: s };
+};
+
+const stripCityFromLocation = (loc = '', city = '') => {
+  const c = (city || '').trim();
+  if (!loc) return '';
+  let s = loc.trim();
+  if (!c) return s;
+
+  const patterns = [
+    new RegExp(`^м\\.?\\s*${c}\\s*,\\s*`, 'i'),
+    new RegExp(`^місто\\s*${c}\\s*,\\s*`, 'i'),
+    new RegExp(`^${c}\\s*,\\s*`, 'i')
+  ];
+  patterns.forEach((re) => (s = s.replace(re, '')));
+  return s.trim();
+};
+
+const hasStreetPrefix = (s = '') =>
+  /(вул\.|вулиця|просп\.|проспект|бульвар|пров\.|провулок|street|str\.)/i.test(s);
+
+const normalizeRegion = (r = '') => {
+  const s = r.trim();
+  if (!s) return '';
+  if (/область$/i.test(s)) return s;
+  if (/обл\.$/i.test(s)) return s.replace(/обл\.$/i, 'область');
+  return `${s} область`;
+};
+
+const buildLocation = ({ region, city, street }) => {
+  const regionPart = normalizeRegion(region || '');
+  const cityPart = city?.trim() ? `м. ${city.trim()}` : '';
+
+  let streetPart = (street || '').trim();
+  if (streetPart && !hasStreetPrefix(streetPart)) streetPart = `вул. ${streetPart}`;
+
+  return [regionPart, cityPart, streetPart]
+    .filter(Boolean)
+    .join(', ')
+    .replace(/\s+,/g, ',')
+    .replace(/,\s*,/g, ', ')
+    .trim();
+};
+
+const normalizeStreetOnly = (raw, city, region) => {
+  let s = (raw || '').trim();
+  const afterRegion = stripRegionFromLocation(s).rest;
+  const afterCity = stripCityFromLocation(afterRegion, city);
+  if (afterCity && !hasStreetPrefix(afterCity)) return `вул. ${afterCity}`;
+  return afterCity;
+};
+
 const EditMyAccommodation = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -43,9 +108,18 @@ const EditMyAccommodation = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Завантаження + парсинг області та вулиці
   useEffect(() => {
     getAccommodationById(id)
-      .then((data) => setFormData(data))
+      .then((data) => {
+        const { region, rest } = stripRegionFromLocation(data.location || '');
+        const streetOnly = normalizeStreetOnly(rest, data.city || '', region || '');
+        setFormData({
+          ...data,
+          region: region || '',
+          location: streetOnly || ''
+        });
+      })
       .catch(() => setError('Не вдалося завантажити помешкання'));
   }, [id]);
 
@@ -55,12 +129,19 @@ const EditMyAccommodation = () => {
   };
 
   const setCoordinates = ({ latitude, longitude }) => {
+    setFormData((prev) => ({ ...prev, latitude, longitude }));
+  };
+
+  const normalizeFormAddress = () =>
     setFormData((prev) => ({
       ...prev,
-      latitude,
-      longitude
+      region: normalizeRegion(prev.region || ''),
+      location: normalizeStreetOnly(
+        prev.location || '',
+        prev.city || '',
+        prev.region || ''
+      )
     }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,14 +149,20 @@ const EditMyAccommodation = () => {
     setError(null);
 
     try {
+      const locationFull = buildLocation({
+        region: formData.region,
+        city: formData.city,
+        street: formData.location
+      });
+
       const payload = {
-        name: formData.name?.trim(),
+        name: (formData.name || '').trim(),
         type: formData.type,
-        location: formData.location?.trim() || '—',
-        city: formData.city?.trim() || 'Київ',
+        location: locationFull,
+        city: (formData.city || '').trim(),
         latitude: String(formData.latitude || ''),
         longitude: String(formData.longitude || ''),
-        size: formData.size?.trim() || '—',
+        size: (formData.size || '—').trim(),
         amenities: Array.isArray(formData.amenities)
           ? formData.amenities
           : String(formData.amenities || '')
@@ -83,15 +170,12 @@ const EditMyAccommodation = () => {
               .map((a) => a.trim())
               .filter(Boolean),
         dailyRate: Number(formData.dailyRate) || 0,
-        image: formData.image?.trim() || ''
+        image: (formData.image || '').trim()
       };
-
-      console.log('👉 Payload (редагування):', payload);
 
       await updateMyAccommodation(id, payload);
       navigate('/my-accommodations');
     } catch (err) {
-      console.error('❌ Backend error:', err.response?.data || err);
       setError(err.response?.data?.message || 'Помилка при оновленні');
     } finally {
       setLoading(false);
@@ -100,10 +184,14 @@ const EditMyAccommodation = () => {
 
   if (!formData) return <p>Завантаження...</p>;
 
+  const lat = Number(formData.latitude);
+  const lng = Number(formData.longitude);
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
+
   return (
     <div className="container page">
       <form onSubmit={handleSubmit} className="admin-form">
-        <h1>✏️ Редагувати моє помешкання</h1>
+        <h1>✨ ✏️ Редагувати моє помешкання</h1>
         {error && <Notification message={error} type="danger" />}
 
         {/* Назва */}
@@ -129,14 +217,16 @@ const EditMyAccommodation = () => {
           </select>
         </div>
 
-        {/* Локація */}
+        {/* 🆕 Область */}
         <div className="form-group">
-          <label>Локація</label>
+          <label>Область</label>
           <input
             type="text"
-            name="location"
-            value={formData.location || ''}
+            name="region"
+            placeholder="Івано-Франківська область"
+            value={formData.region || ''}
             onChange={handleChange}
+            onBlur={normalizeFormAddress}
           />
         </div>
 
@@ -146,8 +236,23 @@ const EditMyAccommodation = () => {
           <input
             type="text"
             name="city"
+            placeholder="Київ"
             value={formData.city || ''}
             onChange={handleChange}
+            onBlur={normalizeFormAddress}
+          />
+        </div>
+
+        {/* Локація (ЛИШЕ вулиця/будинок/кв.) */}
+        <div className="form-group">
+          <label>Локація</label>
+          <input
+            type="text"
+            name="location"
+            placeholder="вул. Центральна, 15, кв. 3"
+            value={formData.location || ''}
+            onChange={handleChange}
+            onBlur={normalizeFormAddress}
           />
         </div>
 
@@ -167,7 +272,7 @@ const EditMyAccommodation = () => {
           <label>Виберіть розташування на карті</label>
           <div style={{ height: '300px', width: '100%', marginBottom: '1rem' }}>
             <MapContainer
-              center={[formData.latitude || 50.45, formData.longitude || 30.52]}
+              center={[hasPoint ? lat : 50.45, hasPoint ? lng : 30.52]}
               zoom={12}
               style={{ height: '100%', width: '100%' }}
             >
@@ -176,17 +281,12 @@ const EditMyAccommodation = () => {
                 attribution="&copy; OpenStreetMap contributors"
               />
               <LocationPicker setCoordinates={setCoordinates} />
-              {formData.latitude && formData.longitude && (
-                <Marker
-                  position={[formData.latitude, formData.longitude]}
-                  icon={defaultIcon}
-                />
-              )}
+              {hasPoint && <Marker position={[lat, lng]} icon={defaultIcon} />}
             </MapContainer>
           </div>
-          {formData.latitude && formData.longitude && (
+          {hasPoint && (
             <p>
-              📍 Обрані координати: {formData.latitude}, {formData.longitude}
+              📍 Обрані координати: {lat}, {lng}
             </p>
           )}
         </div>
@@ -205,13 +305,16 @@ const EditMyAccommodation = () => {
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                amenities: e.target.value.split(',').map((a) => a.trim())
+                amenities: e.target.value
+                  .split(',')
+                  .map((a) => a.trim())
+                  .filter(Boolean)
               }))
             }
           />
         </div>
 
-        {/* Daily rate */}
+        {/* Ціна за добу */}
         <div className="form-group">
           <label>Ціна за добу</label>
           <input
@@ -222,7 +325,7 @@ const EditMyAccommodation = () => {
           />
         </div>
 
-        {/* Image */}
+        {/* URL зображення */}
         <div className="form-group">
           <label>URL зображення</label>
           <input

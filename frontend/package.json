@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "react-scripts start",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
@@ -42,7 +41,6 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
-    "connect-history-api-fallback": "^2.0.0",
     "cypress": "^14.5.4",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",

@@ -54,5 +54,4 @@ const AccommodationCard = ({ accommodation }) => {
   );
 };
 
-//  мемоізація для запобігання зайвим ререндерам
 export default React.memo(AccommodationCard);

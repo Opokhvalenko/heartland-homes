@@ -7,31 +7,22 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import PageWrapper from './components/PageWrapper.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
-import Home from './pages/Home.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 
-// Auth
+// Auth (легкі — можна лишити не-lazy, як у тебе)
 import ProtectedRoute from './pages/Auth/ProtectedRoute.jsx';
 import Login from './pages/Auth/Login.jsx';
 import Register from './pages/Auth/Register.jsx';
 import LoginSuccess from './pages/Auth/LoginSuccess.jsx';
 
-// Accommodations
-import Accommodations from './pages/Accommodations/Accommodations.jsx';
-import AccommodationDetails from './pages/Accommodations/AccommodationDetails.jsx';
+// 👇 Ледачимо важкі/вторинні сторінки
+const Home = lazy(() => import('./pages/Home.jsx'));
+const Accommodations = lazy(() => import('./pages/Accommodations/Accommodations.jsx'));
+const AccommodationDetails = lazy(
+  () => import('./pages/Accommodations/AccommodationDetails.jsx')
+);
 
-// Info pages
-import FAQ from './pages/Info/FAQ.jsx';
-import Support from './pages/Info/Support.jsx';
-import About from './pages/Info/About.jsx';
-import OffersPage from './pages/Info/OffersPage.jsx';
-import Terms from './pages/Info/Terms.jsx';
-import Privacy from './pages/Info/Privacy.jsx';
-import Popular from './pages/Info/Popular.jsx';
-import Partners from './pages/Info/Partners.jsx';
-import Cookies from './pages/Info/Cookies.jsx';
-
-// Lazy-loaded User
+// User
 const Profile = lazy(() => import('./pages/User/Profile.jsx'));
 const MyBookings = lazy(() => import('./pages/User/MyBookings.jsx'));
 const BookingDetails = lazy(() => import('./pages/BookingDetails.jsx'));
@@ -40,7 +31,7 @@ const PaymentSuccess = lazy(() => import('./pages/User/PaymentSuccess.jsx'));
 const PaymentCancel = lazy(() => import('./pages/User/PaymentCancel.jsx'));
 const PaymentsList = lazy(() => import('./pages/User/PaymentsList.jsx'));
 
-// Lazy-loaded Admin
+// Admin
 const AdminLayout = lazy(() => import('./components/AdminLayout.jsx'));
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.jsx'));
 const AdminAccommodations = lazy(() => import('./pages/Admin/AdminAccommodations.jsx'));
@@ -52,23 +43,29 @@ const AdminBookingDetails = lazy(() => import('./pages/Admin/AdminBookingDetails
 const AdminUsers = lazy(() => import('./pages/Admin/AdminUsers.jsx'));
 const AdminPayments = lazy(() => import('./pages/Admin/AdminPayments.jsx'));
 
-// Shared: Create accommodation (CUSTOMER + MANAGER)
+// Shared
 const CreateAccommodation = lazy(
   () => import('./pages/Accommodations/CreateAccommodation.jsx')
 );
-
-// My Accommodations (CUSTOMER + MANAGER)
 const MyAccommodations = lazy(
   () => import('./pages/Accommodations/MyAccommodations.jsx')
 );
-
-// Edit My Accommodation (CUSTOMER + MANAGER)
 const EditMyAccommodation = lazy(
   () => import('./pages/Accommodations/EditMyAccommodation.jsx')
 );
 
-// NotFound
-import NotFound from './pages/NotFound.jsx';
+// Info pages (раніше були eager)
+const FAQ = lazy(() => import('./pages/Info/FAQ.jsx'));
+const Support = lazy(() => import('./pages/Info/Support.jsx'));
+const About = lazy(() => import('./pages/Info/About.jsx'));
+const OffersPage = lazy(() => import('./pages/Info/OffersPage.jsx'));
+const Terms = lazy(() => import('./pages/Info/Terms.jsx'));
+const Privacy = lazy(() => import('./pages/Info/Privacy.jsx'));
+const Popular = lazy(() => import('./pages/Info/Popular.jsx'));
+const Partners = lazy(() => import('./pages/Info/Partners.jsx'));
+const Cookies = lazy(() => import('./pages/Info/Cookies.jsx'));
+
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 import './styles/main.scss';
 
@@ -88,14 +85,7 @@ function App() {
           const cleanRole = profile.role?.startsWith('ROLE_')
             ? profile.role.replace('ROLE_', '')
             : profile.role;
-
-          dispatch(
-            setUser({
-              token: stored.token,
-              ...profile,
-              cleanRole
-            })
-          );
+          dispatch(setUser({ token: stored.token, ...profile, cleanRole }));
         })
         .catch(() => {
           localStorage.removeItem('auth');
@@ -109,8 +99,8 @@ function App() {
       <Header />
       <main className="main-content">
         <ScrollToTop />
-        <Suspense fallback={<p className="text-center mt-5">Завантаження...</p>}>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Suspense fallback={<p className="text-center mt-5">Завантаження...</p>}>
             <Routes>
               {/* Public routes */}
               <Route
@@ -380,8 +370,8 @@ function App() {
                 }
               />
             </Routes>
-          </ErrorBoundary>
-        </Suspense>
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
     </div>

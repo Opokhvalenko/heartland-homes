@@ -1,3 +1,4 @@
+// src/pages/accommodations/CreateAccommodation.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
@@ -9,7 +10,6 @@ import 'leaflet/dist/leaflet.css';
 
 setupLeaflet();
 
-// стандартна іконка
 const defaultIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   iconRetinaUrl:
@@ -20,7 +20,7 @@ const defaultIcon = new L.Icon({
   iconAnchor: [12, 41]
 });
 
-// компонент для кліку по карті
+// клік по карті
 const LocationPicker = ({ setCoordinates }) => {
   useMapEvents({
     click(e) {
@@ -33,16 +33,47 @@ const LocationPicker = ({ setCoordinates }) => {
   return null;
 };
 
+// допоміжні нормалізації
+const hasStreetPrefix = (s = '') =>
+  /(вул\.|вулиця|просп\.|проспект|бульвар|пров\.|провулок|street|str\.)/i.test(s);
+
+const normalizeRegion = (r = '') => {
+  const s = r.trim();
+  if (!s) return '';
+  return /область/i.test(s) ? s : `${s} область`;
+};
+
+const buildLocation = ({ region, city, street, houseNumber, apartment }) => {
+  const regionPart = normalizeRegion(region);
+  const cityPart = city?.trim() ? `м. ${city.trim()}` : '';
+  let streetPart = street?.trim() || '';
+  if (streetPart && !hasStreetPrefix(streetPart)) streetPart = `вул. ${streetPart}`;
+  const housePart = houseNumber?.trim() || '';
+  const aptPart = apartment?.trim() ? `кв. ${apartment.trim()}` : '';
+
+  return [
+    regionPart,
+    cityPart,
+    [streetPart, housePart].filter(Boolean).join(' '),
+    aptPart
+  ]
+    .filter(Boolean)
+    .join(', ')
+    .replace(/\s+,/g, ',')
+    .replace(/,\s*,/g, ', ');
+};
+
 const CreateAccommodation = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
     type: 'HOUSE',
+    region: '',
+    city: '',
     street: '',
     houseNumber: '',
     apartment: '',
-    city: '',
     size: '',
     latitude: '',
     longitude: '',
@@ -56,19 +87,11 @@ const CreateAccommodation = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const setCoordinates = ({ latitude, longitude }) => {
-    setFormData((prev) => ({
-      ...prev,
-      latitude,
-      longitude,
-      city: 'Київ' // 🔧 тестове значення для навчального проєкту
-    }));
+    setFormData((prev) => ({ ...prev, latitude, longitude }));
   };
 
   const handleSubmit = async (e) => {
@@ -77,25 +100,28 @@ const CreateAccommodation = () => {
     setError(null);
 
     try {
-      // зібрана адреса
-      const location = `${formData.street || ''} ${formData.houseNumber || ''}${
-        formData.apartment ? ', кв. ' + formData.apartment : ''
-      }`.trim();
+      const location = buildLocation({
+        region: formData.region,
+        city: formData.city,
+        street: formData.street,
+        houseNumber: formData.houseNumber,
+        apartment: formData.apartment
+      });
 
       const payload = {
-        name: formData.name,
+        name: formData.name.trim(),
         type: formData.type,
         location,
-        city: formData.city,
-        size: formData.size,
-        latitude: formData.latitude,
-        longitude: formData.longitude,
+        city: formData.city.trim(),
+        size: formData.size.trim(),
+        latitude: String(formData.latitude || ''),
+        longitude: String(formData.longitude || ''),
         amenities: formData.amenities
           .split(',')
           .map((a) => a.trim())
           .filter(Boolean),
         dailyRate: Number(formData.dailyRate),
-        image: formData.image
+        image: formData.image.trim()
       };
 
       await createAccommodation(payload);
@@ -107,6 +133,10 @@ const CreateAccommodation = () => {
     }
   };
 
+  const lat = Number(formData.latitude);
+  const lng = Number(formData.longitude);
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
+
   return (
     <div className="container page">
       <form onSubmit={handleSubmit} className="admin-form">
@@ -116,7 +146,7 @@ const CreateAccommodation = () => {
         {/* Назва */}
         <div className="form-group">
           <label>Назва</label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+          <input name="name" value={formData.name} onChange={handleChange} />
         </div>
 
         {/* Тип */}
@@ -131,22 +161,33 @@ const CreateAccommodation = () => {
           </select>
         </div>
 
+        {/* 🆕 Область */}
+        <div className="form-group">
+          <label>Область</label>
+          <input
+            name="region"
+            placeholder="Київська область"
+            value={formData.region}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Місто */}
+        <div className="form-group">
+          <label>Місто</label>
+          <input name="city" value={formData.city} onChange={handleChange} />
+        </div>
+
         {/* Вулиця */}
         <div className="form-group">
           <label>Вулиця / район</label>
-          <input
-            type="text"
-            name="street"
-            value={formData.street}
-            onChange={handleChange}
-          />
+          <input name="street" value={formData.street} onChange={handleChange} />
         </div>
 
         {/* Номер будинку */}
         <div className="form-group">
           <label>Номер будинку</label>
           <input
-            type="text"
             name="houseNumber"
             value={formData.houseNumber}
             onChange={handleChange}
@@ -156,30 +197,19 @@ const CreateAccommodation = () => {
         {/* Квартира */}
         <div className="form-group">
           <label>Квартира / офіс</label>
-          <input
-            type="text"
-            name="apartment"
-            value={formData.apartment}
-            onChange={handleChange}
-          />
-        </div>
-
-        {/* Місто */}
-        <div className="form-group">
-          <label>Місто</label>
-          <input type="text" name="city" value={formData.city} onChange={handleChange} />
+          <input name="apartment" value={formData.apartment} onChange={handleChange} />
         </div>
 
         {/* Розмір */}
         <div className="form-group">
           <label>Розмір (наприклад, 50м²)</label>
-          <input type="text" name="size" value={formData.size} onChange={handleChange} />
+          <input name="size" value={formData.size} onChange={handleChange} />
         </div>
 
         {/* Карта */}
         <div className="form-group">
           <label>Виберіть розташування на карті</label>
-          <div style={{ height: '300px', width: '100%', marginBottom: '1rem' }}>
+          <div style={{ height: 300, width: '100%', marginBottom: '1rem' }}>
             <MapContainer
               center={[50.45, 30.52]}
               zoom={12}
@@ -190,17 +220,12 @@ const CreateAccommodation = () => {
                 attribution="&copy; OpenStreetMap contributors"
               />
               <LocationPicker setCoordinates={setCoordinates} />
-              {formData.latitude && formData.longitude && (
-                <Marker
-                  position={[formData.latitude, formData.longitude]}
-                  icon={defaultIcon}
-                />
-              )}
+              {hasPoint && <Marker position={[lat, lng]} icon={defaultIcon} />}
             </MapContainer>
           </div>
-          {formData.latitude && formData.longitude && (
+          {hasPoint && (
             <p>
-              📍 Обрані координати: {formData.latitude}, {formData.longitude}
+              📍 Обрані координати: {lat}, {lng}
             </p>
           )}
         </div>
@@ -209,7 +234,6 @@ const CreateAccommodation = () => {
         <div className="form-group">
           <label>Зручності (через кому)</label>
           <input
-            type="text"
             name="amenities"
             value={formData.amenities}
             onChange={handleChange}
@@ -217,7 +241,7 @@ const CreateAccommodation = () => {
           />
         </div>
 
-        {/* Daily rate */}
+        {/* Ціна */}
         <div className="form-group">
           <label>Ціна за добу</label>
           <input
@@ -228,11 +252,10 @@ const CreateAccommodation = () => {
           />
         </div>
 
-        {/* Image */}
+        {/* Зображення */}
         <div className="form-group">
           <label>URL зображення</label>
           <input
-            type="text"
             name="image"
             value={formData.image}
             onChange={handleChange}
