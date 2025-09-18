@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_URL,
   paramsSerializer: (params) =>
     qs.stringify(params, { arrayFormat: 'repeat', allowDots: true })
 });
@@ -35,7 +35,7 @@ instance.interceptors.response.use(
     if (err.response?.status === 401) {
       const currentPath = window.location.pathname;
 
-      // ❌ Не редіректимо, якщо вже на сторінці логіну
+      //  Не редіректимо, якщо вже на сторінці логіну
       if (currentPath !== '/login') {
         localStorage.removeItem('auth');
         localStorage.removeItem('userProfile');
