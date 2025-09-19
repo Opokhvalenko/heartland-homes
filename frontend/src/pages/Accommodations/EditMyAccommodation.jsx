@@ -15,12 +15,10 @@ setupLeaflet();
 
 const defaultIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  iconRetinaUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  shadowUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
   iconSize: [25, 41],
-  iconAnchor: [12, 41]
+  iconAnchor: [12, 41],
 });
 
 // Клік по карті -> задаємо координати
@@ -29,12 +27,14 @@ const LocationPicker = ({ setCoordinates }) => {
     click(e) {
       setCoordinates({
         latitude: e.latlng.lat.toFixed(6),
-        longitude: e.latlng.lng.toFixed(6)
+        longitude: e.latlng.lng.toFixed(6),
       });
-    }
+    },
   });
   return null;
 };
+
+//  хелпери адреси (область/місто/вулиця) 
 
 const stripRegionFromLocation = (loc = '') => {
   if (!loc) return { region: '', rest: '' };
@@ -60,7 +60,7 @@ const stripCityFromLocation = (loc = '', city = '') => {
   const patterns = [
     new RegExp(`^м\\.?\\s*${c}\\s*,\\s*`, 'i'),
     new RegExp(`^місто\\s*${c}\\s*,\\s*`, 'i'),
-    new RegExp(`^${c}\\s*,\\s*`, 'i')
+    new RegExp(`^${c}\\s*,\\s*`, 'i'),
   ];
   patterns.forEach((re) => (s = s.replace(re, '')));
   return s.trim();
@@ -117,7 +117,7 @@ const EditMyAccommodation = () => {
         setFormData({
           ...data,
           region: region || '',
-          location: streetOnly || ''
+          location: streetOnly || '',
         });
       })
       .catch(() => setError('Не вдалося завантажити помешкання'));
@@ -136,11 +136,7 @@ const EditMyAccommodation = () => {
     setFormData((prev) => ({
       ...prev,
       region: normalizeRegion(prev.region || ''),
-      location: normalizeStreetOnly(
-        prev.location || '',
-        prev.city || '',
-        prev.region || ''
-      )
+      location: normalizeStreetOnly(prev.location || '', prev.city || '', prev.region || ''),
     }));
 
   const handleSubmit = async (e) => {
@@ -149,31 +145,46 @@ const EditMyAccommodation = () => {
     setError(null);
 
     try {
+      // проста фронт-валідцація dailyRate (>0)
+      const rate =
+        formData.dailyRate === '' || formData.dailyRate == null
+          ? undefined
+          : Number(formData.dailyRate);
+
+      if (rate === undefined || Number.isNaN(rate) || rate <= 0) {
+        setError('Ціна за добу має бути більшою за 0');
+        setLoading(false);
+        return;
+      }
+
       const locationFull = buildLocation({
         region: formData.region,
         city: formData.city,
-        street: formData.location
+        street: formData.location,
       });
+
+      // гарантуємо масив рядків для amenities
+      const amenities = Array.isArray(formData.amenities)
+        ? formData.amenities
+        : String(formData.amenities || '')
+            .split(',')
+            .map((a) => a.trim())
+            .filter(Boolean);
 
       const payload = {
         name: (formData.name || '').trim(),
         type: formData.type,
         location: locationFull,
         city: (formData.city || '').trim(),
-        latitude: String(formData.latitude || ''),
+        latitude: String(formData.latitude || ''), 
         longitude: String(formData.longitude || ''),
-        size: (formData.size || '—').trim(),
-        amenities: Array.isArray(formData.amenities)
-          ? formData.amenities
-          : String(formData.amenities || '')
-              .split(',')
-              .map((a) => a.trim())
-              .filter(Boolean),
-        dailyRate: Number(formData.dailyRate) || 0,
-        image: (formData.image || '').trim()
+        size: (formData.size || '—').trim(),       
+        amenities,
+        dailyRate: rate,                           
+        image: (formData.image || '').trim(),
       };
 
-      await updateMyAccommodation(id, payload);
+      await updateMyAccommodation(id, payload); 
       navigate('/my-accommodations');
     } catch (err) {
       setError(err.response?.data?.message || 'Помилка при оновленні');
@@ -217,7 +228,7 @@ const EditMyAccommodation = () => {
           </select>
         </div>
 
-        {/* 🆕 Область */}
+        {/* Область */}
         <div className="form-group">
           <label>Область</label>
           <input
@@ -243,7 +254,7 @@ const EditMyAccommodation = () => {
           />
         </div>
 
-        {/* Локація (ЛИШЕ вулиця/будинок/кв.) */}
+        {/* Локація (вулиця/будинок/кв.) */}
         <div className="form-group">
           <label>Локація</label>
           <input
@@ -256,9 +267,9 @@ const EditMyAccommodation = () => {
           />
         </div>
 
-        {/* Розмір */}
+        {/* Кількість спалень / розмір */}
         <div className="form-group">
-          <label>Розмір (наприклад, 50м²)</label>
+          <label>Кількість спален (наприклад, 1)</label>
           <input
             type="text"
             name="size"
@@ -284,11 +295,7 @@ const EditMyAccommodation = () => {
               {hasPoint && <Marker position={[lat, lng]} icon={defaultIcon} />}
             </MapContainer>
           </div>
-          {hasPoint && (
-            <p>
-              📍 Обрані координати: {lat}, {lng}
-            </p>
-          )}
+          {hasPoint && <p>📍 Обрані координати: {lat}, {lng}</p>}
         </div>
 
         {/* Зручності */}
@@ -308,7 +315,7 @@ const EditMyAccommodation = () => {
                 amenities: e.target.value
                   .split(',')
                   .map((a) => a.trim())
-                  .filter(Boolean)
+                  .filter(Boolean),
               }))
             }
           />
@@ -319,8 +326,10 @@ const EditMyAccommodation = () => {
           <label>Ціна за добу</label>
           <input
             type="number"
+            min="1"
+            step="1"
             name="dailyRate"
-            value={formData.dailyRate || ''}
+            value={formData.dailyRate ?? ''}
             onChange={handleChange}
           />
         </div>
